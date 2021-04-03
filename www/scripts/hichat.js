@@ -25,7 +25,7 @@ HiChat.prototype = {
             document.getElementById('info').textContent = '!nickname is taken, choose another pls';
         });
         this.socket.on('loginSuccess', function() {
-            document.title = 'hichat | ' + document.getElementById('nicknameInput').value;
+            document.title = 'manoj | ' + document.getElementById('nicknameInput').value;
             document.getElementById('loginWrapper').style.display = 'none';
             document.getElementById('messageInput').focus();
         });
@@ -70,6 +70,7 @@ HiChat.prototype = {
             messageInput.value = '';
             messageInput.focus();
             if (msg.trim().length != 0) {
+                color = 'green';
                 that.socket.emit('postMsg', msg, color);
                 that._displayNewMsg('me', msg, color);
                 return;
@@ -79,8 +80,10 @@ HiChat.prototype = {
             var messageInput = document.getElementById('messageInput'),
                 msg = messageInput.value,
                 color = document.getElementById('colorStyle').value;
+
             if (e.keyCode == 13 && msg.trim().length != 0) {
                 messageInput.value = '';
+                color = 'green';
                 that.socket.emit('postMsg', msg, color);
                 that._displayNewMsg('me', msg, color);
             };
@@ -144,7 +147,7 @@ HiChat.prototype = {
             date = new Date().toTimeString().substr(0, 8),
             //determine whether the msg contains emoji
             msg = this._showEmoji(msg);
-        msgToDisplay.style.color = color || '#000';
+        msgToDisplay.style.color = color || '#e60000';
         msgToDisplay.innerHTML = user + '<span class="timespan">(' + date + '): </span>' + msg;
         container.appendChild(msgToDisplay);
         container.scrollTop = container.scrollHeight;
@@ -153,7 +156,7 @@ HiChat.prototype = {
         var container = document.getElementById('historyMsg'),
             msgToDisplay = document.createElement('p'),
             date = new Date().toTimeString().substr(0, 8);
-        msgToDisplay.style.color = color || '#000';
+        msgToDisplay.style.color = color || '#e60000';
         msgToDisplay.innerHTML = user + '<span class="timespan">(' + date + '): </span> <br/>' + '<a href="' + imgData + '" target="_blank"><img src="' + imgData + '"/></a>';
         container.appendChild(msgToDisplay);
         container.scrollTop = container.scrollHeight;
@@ -168,7 +171,7 @@ HiChat.prototype = {
             if (emojiIndex > totalEmojiNum) {
                 result = result.replace(match[0], '[X]');
             } else {
-                result = result.replace(match[0], '<img class="emoji" src="../content/emoji/' + emojiIndex + '.gif" />');//todo:fix this in chrome it will cause a new request for the image
+                result = result.replace(match[0], '<img class="emoji" src="../content/emoji/' + emojiIndex + '.gif" />'); //todo:fix this in chrome it will cause a new request for the image
             };
         };
         return result;

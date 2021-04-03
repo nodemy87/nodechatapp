@@ -14,7 +14,7 @@ server.listen(process.env.PORT || 3000); //publish to heroku
 io.sockets.on('connection', function(socket) {
     //new user login
     socket.on('login', function(nickname) {
-        console.log("manoj" + nickname);
+
         if (users.indexOf(nickname) > -1) {
             socket.emit('nickExisted');
         } else {
@@ -35,6 +35,7 @@ io.sockets.on('connection', function(socket) {
     });
     //new message get
     socket.on('postMsg', function(msg, color) {
+        color = 'green';
         socket.broadcast.emit('newMsg', socket.nickname, msg, color);
     });
     //new image get
